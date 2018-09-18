@@ -2,17 +2,35 @@
  * @author JingAn Chen <lzsoft.cja@gmail.com>
  * @module PokerDeck
  */
+const _symSuit = Symbol('suit');
+const _symFaceValue = Symbol('faceValue');
+const _symDeck = Symbol('deck');
 /**
  * @constant
  * @enum {number}
  * @readonly
  */
-const POKER_SUITS = {
+const POKER_SUITS = Object.freeze({
 	CLUBS: 1,
 	DIAMONDS: 2,
 	HEARTS: 3,
 	SPADES: 4
-};
+});
+const POKER_FACE_VALUES = Object.freeze({
+	ACE: 1,
+	TWO: 2,
+	THREE: 3,
+	FOUR: 4,
+	FIVE: 5,
+	SIX: 6,
+	SEVEN: 7,
+	EIGHT: 8,
+	NINE: 9,
+	TEN: 10,
+	JACK: 11,
+	QUEEN: 12,
+	KING: 13
+});
 /**
  * @class
  * @classdesc This class represents a Poker Deck that includes shuffle() and dealOneCard() functions
@@ -22,7 +40,14 @@ class PokerDeck {
 	/**
 	 * @constructor
 	 */
-	constructor() {}
+	constructor() {
+		this[_symDeck] = [];
+		for (let s of Object.values(POKER_SUITS)) {
+			for (let v of Object.values(POKER_FACE_VALUES)) {
+				this[_symDeck].push(new PokerCard(s, v));
+			}
+		}
+	}
 	shuffle() {
 		// return thirdPartyLib.shuffle(this);
 		// Just kidding :)
@@ -36,7 +61,7 @@ class PokerDeck {
 }
 /**
  * @class
- * @classdesc This class represents a Poker Card that contains a
+ * @classdesc This class represents a Poker Card that contains a suit and a faceValue.
  * @todo
  */
 class PokerCard {
@@ -46,14 +71,20 @@ class PokerCard {
 	 * @param {number} faceValue
 	 */
 	constructor(suit, faceValue) {
-		this._suitSym = Symbol('suit');
-		this._faceValueSym = Symbol('faceValue');
+		// if (!POKER_SUITS.values.includes(suit)) {
+		// 	throw new Error('Parameter suit must be one of the POKER_SUIT enumeration');
+		// }
+		this[_symSuit] = suit;
+		this[_symFaceValue] = faceValue;
 	}
-	get suit() {}
-	get faceValue() {}
+	get suit() {
+		return this[_symSuit];
+	}
+	get faceValue() {
+		return this[_symFaceValue];
+	}
 }
-export {
-	PokerDeck,
-	PokerCard,
-	POKER_SUITS
-};
+exports.PokerDeck = PokerDeck;
+exports.PokerCard = PokerCard;
+exports.POKER_SUITS = POKER_SUITS;
+const d = new PokerDeck();

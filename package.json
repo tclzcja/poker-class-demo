@@ -1,0 +1,20 @@
+{
+	"name": "poker-deck",
+	"version": "1.0.0",
+	"description": "This is the poker deck class demo",
+	"main": "poker-deck.js",
+	"scripts": {
+		"test": "mocha --recursive \"./test/unit/**/*.js\" --exit --slow 5000 --async-only"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://tec.me/bitbucket/scm/sseg/sesame-lms-api.git"
+	},
+	"license": "MIT",
+	"devDependencies": {
+		"mocha": "^5.2.0"
+	},
+	"engines": {
+		"node": "9.8.0"
+	}
+}
