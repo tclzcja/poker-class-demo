@@ -5,6 +5,7 @@
 const _symSuit = Symbol('suit');
 const _symFaceValue = Symbol('faceValue');
 const _symDeck = Symbol('deck');
+const _symShuffled = Symbol('shuffled');
 /**
  * @constant
  * @enum {number}
@@ -36,15 +37,21 @@ const POKER_FACE_VALUES = Object.freeze({
  * @classdesc This class represents a Poker Deck that includes shuffle() and dealOneCard() functions
  * @todo
  */
+function capitalize(s) {
+	return s[0].toUpperCase() + s.slice(1).toLowerCase();
+}
 class PokerDeck {
 	/**
 	 * @constructor
 	 */
 	constructor() {
+		this[_symShuffled] = false;
 		this[_symDeck] = [];
 		for (let s of Object.values(POKER_SUITS)) {
 			for (let v of Object.values(POKER_FACE_VALUES)) {
-				this[_symDeck].push(new PokerCard(s, v));
+				const c = new PokerCard(s, v);
+				console.log(Object.keys(c));
+				this[_symDeck].push();
 			}
 		}
 	}
@@ -77,11 +84,35 @@ class PokerCard {
 		this[_symSuit] = suit;
 		this[_symFaceValue] = faceValue;
 	}
+	/**
+	 * @readonly
+	 */
 	get suit() {
 		return this[_symSuit];
 	}
+	/**
+	 * @readonly
+	 */
+	get suitName() {
+		return Object.keys(POKER_SUITS).find(key => POKER_SUITS[key] === this[_symSuit]);
+	}
+	/**
+	 * @readonly
+	 */
 	get faceValue() {
 		return this[_symFaceValue];
+	}
+	/**
+	 * @readonly
+	 */
+	get faceValueName() {
+		return Object.keys(POKER_FACE_VALUES).find(key => POKER_FACE_VALUES[key] === this[_symFaceValue]);
+	}
+	/**
+	 * @readonly
+	 */
+	get properName() {
+		return capitalize(this.suitName) + ' ' + capitalize(this.faceValueName);
 	}
 }
 exports.PokerDeck = PokerDeck;
