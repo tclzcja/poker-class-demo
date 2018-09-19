@@ -17,6 +17,11 @@ const POKER_SUITS = Object.freeze({
 	HEARTS: 3,
 	SPADES: 4
 });
+/**
+ * @constant
+ * @enum {number}
+ * @readonly
+ */
 const POKER_FACE_VALUES = Object.freeze({
 	ACE: 1,
 	TWO: 2,
@@ -32,11 +37,7 @@ const POKER_FACE_VALUES = Object.freeze({
 	QUEEN: 12,
 	KING: 13
 });
-/**
- * @class
- * @classdesc This class represents a Poker Deck that includes shuffle() and dealOneCard() functions
- * @todo
- */
+
 function capitalize(s) {
 	return s[0].toUpperCase() + s.slice(1).toLowerCase();
 }
@@ -45,6 +46,10 @@ function randomIntInclusiveFromZero(max) {
 	max = Math.floor(max);
 	return Math.floor(Math.random() * (max + 1));
 }
+/**
+ * @class
+ * @classdesc This class represents a Poker Deck that includes shuffle() and dealOneCard() functions.
+ */
 class PokerDeck {
 	/**
 	 * @constructor
@@ -58,6 +63,9 @@ class PokerDeck {
 			}
 		}
 	}
+	/**
+	 * Shuffle the whole deck.
+	 */
 	shuffle() {
 		for (let i = this[_symDeck].length - 1; i > 0; i--) {
 			const r = randomIntInclusiveFromZero(i);
@@ -67,6 +75,10 @@ class PokerDeck {
 		}
 		this[_symShuffled] = true;
 	}
+	/**
+	 * Randomly deal a card from the deck.
+	 * @return {PokerCard} A PokerCard object.
+	 */
 	dealOneCard() {
 		if (this[_symDeck].length > 0) {
 			return this[_symDeck].splice(randomIntInclusiveFromZero(this[_symDeck].length - 1), 1)[0];
@@ -74,9 +86,15 @@ class PokerDeck {
 			return null;
 		}
 	}
+	/**
+	 * @readonly
+	 */
 	get cardsLeft() {
 		return this[_symDeck].length;
 	}
+	/**
+	 * @readonly
+	 */
 	get shuffled() {
 		return this[_symShuffled];
 	}
@@ -84,13 +102,13 @@ class PokerDeck {
 /**
  * @class
  * @classdesc This class represents a Poker Card that contains a suit and a faceValue.
- * @todo
  */
 class PokerCard {
 	/**
+	 * Generate a card by the given suit and faceValue. Suit and faceValue can not be changed anymore after construction.
 	 * @constructor
 	 * @param {POKER_SUITS | number} suit
-	 * @param {number} faceValue
+	 * @param {POKER_FACE_VALUES | number} faceValue
 	 */
 	constructor(suit, faceValue) {
 		if (!Object.values(POKER_SUITS).includes(suit)) {
@@ -103,30 +121,35 @@ class PokerCard {
 		this[_symFaceValue] = faceValue;
 	}
 	/**
+	 * Return the suit index of the card, ranged from 1 to 4.
 	 * @readonly
 	 */
 	get suit() {
 		return this[_symSuit];
 	}
 	/**
+	 * Return the enum name of the suit.
 	 * @readonly
 	 */
 	get suitName() {
 		return Object.keys(POKER_SUITS).find(key => POKER_SUITS[key] === this[_symSuit]);
 	}
 	/**
+	 * Return the face value index of the card, ranged from 1 to 13.
 	 * @readonly
 	 */
 	get faceValue() {
 		return this[_symFaceValue];
 	}
 	/**
+	 * Return the enum name of the face value.
 	 * @readonly
 	 */
 	get faceValueName() {
 		return Object.keys(POKER_FACE_VALUES).find(key => POKER_FACE_VALUES[key] === this[_symFaceValue]);
 	}
 	/**
+	 * Return a more human readable name representing the suit and the face value of the card.
 	 * @readonly
 	 */
 	get properName() {
