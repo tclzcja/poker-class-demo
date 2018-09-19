@@ -40,6 +40,11 @@ const POKER_FACE_VALUES = Object.freeze({
 function capitalize(s) {
 	return s[0].toUpperCase() + s.slice(1).toLowerCase();
 }
+
+function randomIntInclusiveFromZero(max) {
+	max = Math.floor(max);
+	return Math.floor(Math.random() * (max + 1));
+}
 class PokerDeck {
 	/**
 	 * @constructor
@@ -49,21 +54,31 @@ class PokerDeck {
 		this[_symDeck] = [];
 		for (let s of Object.values(POKER_SUITS)) {
 			for (let v of Object.values(POKER_FACE_VALUES)) {
-				const c = new PokerCard(s, v);
-				console.log(Object.keys(c));
-				this[_symDeck].push();
+				this[_symDeck].push(new PokerCard(s, v));
 			}
 		}
 	}
 	shuffle() {
-		// return thirdPartyLib.shuffle(this);
-		// Just kidding :)
-		// Use Fisher Yates algorithm here.
+		for (let i = this[_symDeck].length - 1; i > 0; i--) {
+			const r = randomIntInclusiveFromZero(i);
+			let t = this[_symDeck][r];
+			this[_symDeck][r] = this[_symDeck][i];
+			this[_symDeck][i] = t;
+		}
+		this[_symShuffled] = true;
 	}
 	dealOneCard() {
-		// return fourthPartyLib.dealOneCard(this);
-		// Just kidding :)
-		// Must deal with the scenario that the deck is NOT shuffled at the beginning and dealOneCard() get called immediately.
+		if (this[_symDeck].length > 0) {
+			return this[_symDeck].splice(randomIntInclusiveFromZero(this[_symDeck].length - 1), 1)[0];
+		} else {
+			return null;
+		}
+	}
+	get cardsLeft() {
+		return this[_symDeck].length;
+	}
+	get shuffled() {
+		return this[_symShuffled];
 	}
 }
 /**
@@ -78,9 +93,12 @@ class PokerCard {
 	 * @param {number} faceValue
 	 */
 	constructor(suit, faceValue) {
-		// if (!POKER_SUITS.values.includes(suit)) {
-		// 	throw new Error('Parameter suit must be one of the POKER_SUIT enumeration');
-		// }
+		if (!Object.values(POKER_SUITS).includes(suit)) {
+			throw new Error('Parameter suit must be one of the POKER_SUIT enum');
+		}
+		if (!Object.values(POKER_FACE_VALUES).includes(faceValue)) {
+			throw new Error('Parameter faceValue must be one of the POKER_FACE_VALUE enum');
+		}
 		this[_symSuit] = suit;
 		this[_symFaceValue] = faceValue;
 	}
@@ -118,4 +136,4 @@ class PokerCard {
 exports.PokerDeck = PokerDeck;
 exports.PokerCard = PokerCard;
 exports.POKER_SUITS = POKER_SUITS;
-const d = new PokerDeck();
+exports.POKER_FACE_VALUES = POKER_FACE_VALUES;
