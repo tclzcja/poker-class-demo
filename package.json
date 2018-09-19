@@ -8,7 +8,7 @@
 	},
 	"repository": {
 		"type": "git",
-		"url": "https://tec.me/bitbucket/scm/sseg/sesame-lms-api.git"
+		"url": "https://github.com/tclzcja/poker-class-demo"
 	},
 	"license": "MIT",
 	"devDependencies": {
