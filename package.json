@@ -4,7 +4,7 @@
 	"description": "This is the poker deck class demo",
 	"main": "poker-deck.js",
 	"scripts": {
-		"test": "mocha --recursive \"./test/unit/**/*.js\" --exit --slow 5000 --async-only"
+		"test": "mocha --recursive \"./test/**/*.js\" --exit --slow 5000 --async-only"
 	},
 	"repository": {
 		"type": "git",
